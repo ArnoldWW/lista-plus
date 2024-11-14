@@ -1,0 +1,7 @@
+{
+  "name": "listaPlus",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
