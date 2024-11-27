@@ -1,18 +1,12 @@
 import {
   IonPage,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonContent,
   IonList,
   IonItem,
   IonButton,
-  IonButtons,
-  IonBackButton,
   IonCheckbox,
   IonLabel,
-  IonIcon,
-  IonAlert
+  IonIcon
 } from "@ionic/react";
 import { useParams, useHistory } from "react-router-dom";
 import { useTaskContext } from "../context/TaskContext";

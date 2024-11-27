@@ -28,8 +28,7 @@ const TaskContext = createContext<TaskContextType | undefined>(undefined);
 export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
   children
 }) => {
-  //const [taskGroups, setTaskGroups] = useState<TaskGroup[]>([]);
-
+  /* estado de la aplicación */
   const [taskGroups, setTaskGroups] = useState<TaskGroup[]>(() => {
     const storedData = localStorage.getItem("taskGroups");
     return storedData ? JSON.parse(storedData) : [];
