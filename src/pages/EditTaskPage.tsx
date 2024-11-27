@@ -14,6 +14,7 @@ import {
 import { useHistory, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useTaskContext } from "../context/TaskContext";
+import PageHeader from "../components/PageHeader";
 
 const EditTaskPage: React.FC = () => {
   const { taskGroups, updateTask } = useTaskContext();
@@ -42,15 +43,12 @@ const EditTaskPage: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton defaultHref={`/tasks/${taskId}`}></IonBackButton>
-          </IonButtons>
+      <PageHeader
+        title={`Editar Tarea - ${taskName}`}
+        showBackButton={true}
+        defaultHref="/"
+      />
 
-          <IonTitle>Editar Tarea</IonTitle>
-        </IonToolbar>
-      </IonHeader>
       <IonContent fullscreen={true} className="ion-padding">
         <IonLabel position="stacked">Nombre de la Tarea</IonLabel>
         <IonInput

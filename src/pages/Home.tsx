@@ -45,24 +45,29 @@ const HomePage: React.FC = () => {
           </IonTitle>
         </IonToolbar>
       </IonHeader>
+
       <IonContent fullscreen={true} className="ion-padding">
         <IonList>
-          {taskGroups.map((group) => {
-            const completedTasks = group.tasks.filter(
-              (task) => task.completed
-            ).length;
-            const totalTasks = group.tasks.length;
+          {taskGroups.length > 0 ? (
+            taskGroups.map((group) => {
+              const completedTasks = group.tasks.filter(
+                (task) => task.completed
+              ).length;
+              const totalTasks = group.tasks.length;
 
-            return (
-              <IonItem
-                key={group.id}
-                button
-                onClick={() => history.push(`/tasks/${group.id}`)}
-              >
-                {group.name} ({completedTasks}/{totalTasks})
-              </IonItem>
-            );
-          })}
+              return (
+                <IonItem
+                  key={group.id}
+                  button
+                  onClick={() => history.push(`/tasks/${group.id}`)}
+                >
+                  {group.name} ({completedTasks}/{totalTasks})
+                </IonItem>
+              );
+            })
+          ) : (
+            <IonItem>No hay grupo de tareas.</IonItem>
+          )}
         </IonList>
 
         <IonButton expand="block" onClick={() => setShowModal(true)}>
@@ -88,7 +93,7 @@ const HomePage: React.FC = () => {
             </IonButton>
             <IonButton
               expand="block"
-              color="light"
+              color="danger"
               onClick={() => setShowModal(false)}
             >
               Cancelar

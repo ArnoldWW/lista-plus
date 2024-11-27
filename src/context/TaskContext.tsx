@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 
 interface Task {
   id: string;
@@ -19,6 +19,8 @@ interface TaskContextType {
   toggleTaskCompletion: (groupId: string, taskId: string) => void;
   updateTask: (groupId: string, taskId: string, taskName: string) => void;
   deleteTask: (groupId: string, taskId: string) => void;
+  deleteTaskGroup: (groupId: string) => void;
+  updateTaskGroupName: (groupId: string, newName: string) => void;
 }
 
 const TaskContext = createContext<TaskContextType | undefined>(undefined);
@@ -26,10 +28,17 @@ const TaskContext = createContext<TaskContextType | undefined>(undefined);
 export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
   children
 }) => {
-  const [taskGroups, setTaskGroups] = useState<TaskGroup[]>([
-    { id: "1", name: "Trabajo", tasks: [] },
-    { id: "2", name: "Casa", tasks: [] }
-  ]);
+  //const [taskGroups, setTaskGroups] = useState<TaskGroup[]>([]);
+
+  const [taskGroups, setTaskGroups] = useState<TaskGroup[]>(() => {
+    const storedData = localStorage.getItem("taskGroups");
+    return storedData ? JSON.parse(storedData) : [];
+  });
+
+  // Guardar los datos cada vez que cambien
+  useEffect(() => {
+    localStorage.setItem("taskGroups", JSON.stringify(taskGroups));
+  }, [taskGroups]);
 
   const addTaskGroup = (name: string) => {
     const newGroup: TaskGroup = {
@@ -105,6 +114,20 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
     );
   };
 
+  const deleteTaskGroup = (groupId: string) => {
+    setTaskGroups((prevGroups) =>
+      prevGroups.filter((group) => group.id !== groupId)
+    );
+  };
+
+  const updateTaskGroupName = (groupId: string, newName: string) => {
+    setTaskGroups((prevGroups) =>
+      prevGroups.map((group) =>
+        group.id === groupId ? { ...group, name: newName } : group
+      )
+    );
+  };
+
   return (
     <TaskContext.Provider
       value={{
@@ -113,7 +136,9 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
         addTask,
         toggleTaskCompletion,
         updateTask,
-        deleteTask
+        deleteTask,
+        deleteTaskGroup,
+        updateTaskGroupName
       }}
     >
       {children}

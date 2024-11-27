@@ -15,6 +15,7 @@ import {
 import { useParams, useHistory } from "react-router-dom";
 import { useState } from "react";
 import { useTaskContext } from "../context/TaskContext";
+import PageHeader from "../components/PageHeader";
 
 const AddTaskPage: React.FC = () => {
   const { addTask } = useTaskContext();
@@ -35,15 +36,8 @@ const AddTaskPage: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton defaultHref="/"></IonBackButton>
-          </IonButtons>
+      <PageHeader title="Agregar Nueva Tarea" showBackButton={true} />
 
-          <IonTitle>Agregar Nueva Tarea</IonTitle>
-        </IonToolbar>
-      </IonHeader>
       <IonContent fullscreen={true} className="ion-padding">
         <IonLabel position="stacked">Nombre de la Tarea</IonLabel>
         <IonInput

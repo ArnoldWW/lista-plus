@@ -36,6 +36,7 @@ import HomePage from "./pages/Home";
 import TaskListPage from "./pages/TaskListPage";
 import EditTaskPage from "./pages/EditTaskPage";
 import AddTaskPage from "./pages/AddTaskPage";
+import EditGroupPage from "./pages/EditGroupPage";
 
 setupIonicReact();
 
@@ -51,6 +52,7 @@ const App: React.FC = () => (
           component={EditTaskPage}
         />
         <Route exact path="/tasks/:groupId/add" component={AddTaskPage} />
+        <Route path="/tasks/:groupId/edit-group" component={EditGroupPage} />
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>
