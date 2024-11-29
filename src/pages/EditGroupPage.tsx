@@ -9,6 +9,7 @@ import {
 import { useParams, useHistory } from "react-router-dom";
 import { useTaskContext } from "../context/TaskContext";
 import PageHeader from "../components/PageHeader";
+import Toast from "../components/Toast";
 
 const EditGroupPage: React.FC = () => {
   const { groupId } = useParams<{ groupId: string }>();
@@ -17,8 +18,14 @@ const EditGroupPage: React.FC = () => {
 
   const group = taskGroups.find((group) => group.id === groupId);
   const [newName, setNewName] = useState(group?.name || "");
+  const [showToast, setShowToast] = useState(false);
 
   const handleSave = () => {
+    if (newName.trim() === "") {
+      setShowToast(true);
+      return;
+    }
+
     if (newName.trim() && group) {
       updateTaskGroupName(groupId, newName);
       history.goBack(); // Regresa a la página anterior
@@ -43,6 +50,13 @@ const EditGroupPage: React.FC = () => {
         <IonButton expand="block" onClick={handleSave}>
           Guardar Cambios
         </IonButton>
+
+        <Toast
+          isOpen={showToast}
+          message={"El nombre del grupo no puede estar vacío."}
+          onDidDismiss={() => setShowToast(false)}
+          color={"danger"}
+        />
       </IonContent>
     </IonPage>
   );

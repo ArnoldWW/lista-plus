@@ -9,12 +9,14 @@ import { useHistory, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useTaskContext } from "../context/TaskContext";
 import PageHeader from "../components/PageHeader";
+import Toast from "../components/Toast";
 
 const EditTaskPage: React.FC = () => {
   const { taskGroups, updateTask } = useTaskContext();
   const history = useHistory();
   const { groupId, taskId } = useParams<{ taskId: string; groupId: string }>();
   const [taskName, setTaskName] = useState("");
+  const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     const group = taskGroups.find((group) => group.id === groupId);
@@ -27,7 +29,10 @@ const EditTaskPage: React.FC = () => {
   const handleSave = () => {
     console.log(`Guardar cambios en la tarea ${taskId}: ${taskName}`);
 
-    if (taskName.trim() === "") return;
+    if (taskName.trim() === "") {
+      setShowToast(true);
+      return;
+    }
 
     //actualizar la tarea
     updateTask(groupId, taskId, taskName);
@@ -53,6 +58,13 @@ const EditTaskPage: React.FC = () => {
         <IonButton expand="block" onClick={handleSave}>
           Guardar
         </IonButton>
+
+        <Toast
+          isOpen={showToast}
+          message={"El nombre de la tarea no puede estar vacío."}
+          onDidDismiss={() => setShowToast(false)}
+          color={"danger"}
+        />
       </IonContent>
     </IonPage>
   );

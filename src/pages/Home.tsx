@@ -11,19 +11,27 @@ import {
   IonButton,
   IonLabel,
   IonModal,
-  IonImg
+  IonImg,
+  useIonToast
 } from "@ionic/react";
 import { useHistory } from "react-router-dom";
 import { useTaskContext } from "../context/TaskContext";
+import Toast from "../components/Toast";
 
 const HomePage: React.FC = () => {
   const { taskGroups, addTaskGroup } = useTaskContext();
   const history = useHistory();
   const [newGroupName, setNewGroupName] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [showToast, setShowToast] = useState(false);
 
   const handleAddGroup = () => {
     console.log(newGroupName);
+
+    if (newGroupName.trim() === "") {
+      setShowToast(true);
+      return;
+    }
 
     if (newGroupName.trim()) {
       addTaskGroup(newGroupName);
@@ -100,6 +108,13 @@ const HomePage: React.FC = () => {
             </IonButton>
           </IonContent>
         </IonModal>
+
+        <Toast
+          isOpen={showToast}
+          message={"El nombre del grupo no puede estar vacío."}
+          onDidDismiss={() => setShowToast(false)}
+          color={"danger"}
+        />
       </IonContent>
     </IonPage>
   );
